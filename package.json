@@ -1,0 +1,1 @@
+{"license": "", "description": "Persistent web page highlighter with search", "contributors": [], "author": "n8chz", "url": "", "dependencies": ["api-utils", "addon-kit"], "version": "0.1.0", "lib": "lib", "fullName": "Prostetnic Highlighter", "main": "main", "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY", "name": "prostetnic-highlighter"}
