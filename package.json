@@ -1,0 +1,57 @@
+<<<<<<< HEAD
+{"license": "", "description": "Persistent web page highlighter with search", "contributors": [], "author": "n8chz", "url": "", "dependencies": ["api-utils", "addon-kit"], "version": "0.1.0", "lib": "lib", "fullName": "Prostetnic Highlighter", "main": "main", "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY", "name": "prostetnic-highlighter"}
+=======
+{
+  "license": "Cypherpunks' Anti-License ( http://www.cypherspace.org/CPL/ )",
+  "description": "Highlight text in web pages",
+  "contributors": [
+    
+  ],
+  "author": "n8chz",
+  "url": "https://github.com/n8chz",
+  "dependencies": [
+    "api-utils",
+    "addon-kit"
+  ],
+  "version": "initial.rev825",
+  "lib": "lib",
+  "fullName": "Prostetnic Highlighter",
+  "main": "main",
+  "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY",
+  "name": "prostetnic-highlighter",
+  "preferences": [
+   {
+    "title": "Hotkey combo for highlighting text",
+    "type": "string",
+    "name": "hiliteNowCombo",
+    "value": "accel-alt-h"
+   },
+   {
+    "title": "Hotkey combo for selecting highlight color",
+    "type": "string",
+    "name": "selectColorCombo",
+    "value": "accel-alt-a"
+   },
+   {
+    "title": "Hotkey combo for undoing highlights",
+    "type": "string",
+    "name": "undoCombo",
+    "value": "accel-alt-z"
+   },
+   {
+    "title": "Hotkey combo for clearing a page of highlights",
+    "type": "string",
+    "name": "eraseCombo",
+    "value": "accel-alt-n"
+   },
+   {
+    "title": "Hotkey combo for searching previously highlighted text",
+    "type": "string",
+    "name": "searchCombo",
+    "value": "accel-alt-f"
+   }
+  ]
+}
+
+
+>>>>>>> prostetnic/master
