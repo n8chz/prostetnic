@@ -1,0 +1,1 @@
+{"license": "", "description": "Current home of the highlighter project", "contributors": [], "author": "n8chz", "url": "", "dependencies": ["api-utils", "addon-kit"], "version": "initial.rev852", "lib": "lib", "fullName": "Prostetnic Highlighter", "main": "main", "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY", "name": "prostetnic-highlighter"}
