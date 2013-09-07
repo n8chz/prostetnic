@@ -1,15 +1,23 @@
+<<<<<<< HEAD
 // document.getElementById("search").focus();
 
 
+=======
+>>>>>>> prostetnic/master
 window.addEventListener("input", function (event) {
  var tc=document.getElementById("search").value;
  // "Internationalization" on the cheap--
  // Treat every 8+ bit character as alpha:
+<<<<<<< HEAD
  var wordArray=tc.split(/'?[\x00-\x26\x28\x29\x3a-\x40\x5b-\x60\x7b-\x7f]+'?/);
+=======
+ var wordArray=tc.split(/'?[\x00-\x29\x3a-\x40\x5b-\x60\x7b-\x7f]+'?/);
+>>>>>>> prostetnic/master
  document.getElementById("search").value=wordArray.join(" ");
  self.port.emit("searchtext", JSON.stringify(wordArray));
 }, false);
 
+<<<<<<< HEAD
 /*
 self.port.on("load", function () {
   document.getElementById("search").focus();
@@ -17,6 +25,9 @@ self.port.on("load", function () {
 */
 
 window.addEventListener("load", function (event) {
+=======
+self.port.on("show", function () {
+>>>>>>> prostetnic/master
   document.getElementById("search").focus();
 });
 

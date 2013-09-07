@@ -4,10 +4,7 @@
 // then posts the stringified hiLite object
 // back to the add-on script.
 self.on("click",function (contextNode,infopak) {
-<<<<<<< HEAD
-=======
 //  alert(infopak);
->>>>>>> prostetnic/master
   info=JSON.parse(infopak);
   window.style=info.style;
   window.serialno=+info.serialno;
