@@ -1,0 +1,15 @@
+{
+    "license": "",
+    "description": "Firefox add-on for highlighting web page text",
+    "contributors": [],
+    "author": "Lorraine Lee",
+    "url": "https://github.com/n8chz/prostetnic",
+    "dependencies": ["api-utils", "addon-kit"],
+    "version": "0.0.1",
+    "lib": "lib",
+    "fullName": "Prostetnic Highlighter",
+    "main": "main",
+    "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY",
+    "name": "prostetnic-highlighter"
+}
+
