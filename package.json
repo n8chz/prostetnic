@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "license": "",
     "description": "Firefox add-on for highlighting web page text",
@@ -12,3 +13,6 @@
     "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY",
     "name": "prostetnic-highlighter"
 }
+=======
+{"license": "", "description": "Current home of the highlighter project", "contributors": [], "author": "n8chz", "url": "", "dependencies": ["api-utils", "addon-kit"], "version": "initial.rev852", "lib": "lib", "fullName": "Prostetnic Highlighter", "main": "main", "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY", "name": "prostetnic-highlighter"}
+>>>>>>> bde974e61824a9fff5746585eb42e5ab3c6cf0fb
