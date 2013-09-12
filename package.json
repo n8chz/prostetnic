@@ -1,0 +1,1 @@
+{"license": "", "description": "Current home of the highlighter project", "contributors": [], "author": "Lorraine Lee", "url": "https://github.com/n8chz/prostetnic", "dependencies": ["api-utils", "addon-kit"], "version": "0.1.1", "lib": "lib", "fullName": "Prostetnic Highlighter", "main": "main", "id": "jid0-pJMJEntDZuwYnkFvfCcFQsgmvBY", "name": "prostetnic-highlighter"}
