@@ -1,0 +1,262 @@
+
+var colorPicker = {
+
+ // This table maps the channels of the two color systems to their appropriate
+ // ranges and identifies which use '%' in their CSS representations
+ MASTER_TABLE: {
+  hsl: [
+   {
+    channelName: "hue",
+    rangeMin: 0,
+    rangeMax: 360,
+    suffix: ""
+   },
+   {
+    channelName: "saturation",
+    rangeMin: 0,
+    rangeMax: 100,
+    suffix: "%"
+   },
+   {
+    channelName: "luminance",
+    rangeMin: 0,
+    rangeMax: 100,
+    suffix: "%"
+   }
+  ],
+  rgb: [
+   {
+    channelName: "red",
+    rangeMin: 0,
+    rangeMax: 255,
+    suffix: ""
+   },
+   {
+    channelName: "green",
+    rangeMin: 0,
+    rangeMax: 255,
+    suffix: ""
+   },
+   {
+    channelName: "blue",
+    rangeMin: 0,
+    rangeMax: 255,
+    suffix: ""
+   }
+  ]
+ },
+
+ // Set default values for public members:
+
+ currentMode: "hsl",
+
+ xChannel: 0,
+
+ fixedChannel: 1,
+
+ yChannel: 2,
+
+ fixedChannelIntensity: 100,
+
+ currentDomain: "background",
+
+ canvasElement: document.getElementById("panel"),
+
+ // setters for public members:
+
+/*
+ * Sets value of this.currentDomain based on radio inputs named "domain"
+ *  (options are text and background).  Either the text or background color of
+ *  the #heading element will be set by the color ultimately selected.
+ * @this {ColorPicker}
+ */
+ setDomain: function () {
+  this.currentDomain = document.getElementById("color").checked ? "color" :
+   "background";
+ },
+
+/*
+ * Return modeTables value corresponding to whichever key is stored in
+ *  this.currentMode.
+ * @return an array of three elements, each describing the parameters of one of
+ *  the three channels apropos this.currentMode
+ */
+ currentModeTable: function () {
+  return this.MASTER_TABLE[this.currentMode];
+ },
+
+/*
+ * Sets value of this.currentMode based on radio inputs named "mode" (options
+ *  are rgb and hsl)
+ */
+ setMode: function () {
+  this.currentMode = document.getElementById("hsl").checked ? "hsl" : "rgb";
+  for (var i = 0; i < 3; i++) {
+   document.getElementById("label"+i).textContent = this.channelName(i);
+   if (document.getElementById("channel"+i).checked) {
+    this.setFixedChannel(i);
+   }
+  }
+  this.drawCubeSlice();
+ },
+
+/*
+ * Sets value of this.fixedChannel to reflect radio inputs named "which" and
+ *  sets range of #channel slider to values for that channel.
+ */
+ setFixedChannel: function (channel) {
+  document.getElementById("channel").textContent = this.channelName(channel);
+  document.getElementById("level").setAttribute(
+   "min", this.currentModeTable()[channel].rangeMin
+  );
+  document.getElementById("level").setAttribute(
+   "max", this.currentModeTable()[channel].rangeMax
+  );
+  this.fixedChannel = channel;
+ },
+
+/*
+ * Redraw color square (slice of color cube) to reflect new slider position.
+ */
+ setChannel: function () {
+  var channels = document.getElementsByName("which");
+  var level = document.getElementById("level");
+  for (var i = 0; i < channels.length; i++) {
+   if (channels[i].checked) {
+    this.setFixedChannel(channels[i].id.slice(-1));
+    // h/t http://stackoverflow.com/a/3884711
+   }
+  }
+  this.drawCubeSlice();
+ },
+
+/*
+ * Redraw color square (slice of color cube) to reflect new slider position.
+ */
+ setIntensity: function () {
+  this.fixedChannelIntensity = document.getElementById("level").value;
+  this.drawCubeSlice();
+ },
+
+/*
+ * Set the triad, an array of 3 numbers with normalized values corresponding to
+ *  x,y coordinates of mouse cursor position.
+ */
+ setTriadComplex: function () {
+  var mode = this.currentMode;
+  var fixedChannel = this.fixedChannel;
+  switch (fixedChannel) {
+   case 0: // oy vey Javascript...
+   case "0":
+    this.xChannel = 1;
+    this.yChannel = 2;
+    break;
+   case 1:
+   case "1":
+    this.xChannel = 0;
+    this.yChannel = 2;
+    break;
+   case 2:
+   case "2":
+    this.xChannel = 0;
+    this.yChannel = 1;
+    break;
+  }
+  this.triad = new Array(3);
+  var width = this.canvasElement.width;
+  var height = this.canvasElement.height;
+  // The multipliers are to map x,y coordinates which are 100-355 (because
+  // 256x256 canvas id'd #panel is {position:absolute; left:100px; top:100px}),
+  // to range apropos to corresponding rgb channel (0-255) or hsl channel
+  // (0-360 for hue, or 1-100% for saturation and luminance)
+  this.xMultiplier = this.currentModeTable()[this.xChannel].rangeMax/height;
+  this.yMultiplier = this.currentModeTable()[this.yChannel].rangeMax/width;
+  this.triad[fixedChannel] = document.getElementById("level").value;
+  this.percentOrNot = this.currentModeTable()[1].suffix;
+ },
+
+/*
+ * Return name of channel at position given by channelIndex, in the current
+ *  mode.
+ * @return {String} name of channel
+ */
+ channelName: function (channelIndex) {
+  return this.currentModeTable()[channelIndex].channelName;
+ },
+
+/*
+ * Redraw color square to reflect any change in parameters
+ */
+ drawCubeSlice: function () {
+  // see http://bucephalus.org/text/CanvasHandbook/CanvasHandbook.html#examples-of-pixel-manipulation
+  var width = this.canvasElement.width;
+  var height = this.canvasElement.height;
+  this.setTriadComplex();
+  var context = this.canvasElement.getContext("2d");
+  var imDat = context.createImageData(width, height);
+  var i = 0;
+  for (var y = 0; y < height; y++) {
+    for (var x = 0; x < width; x++) {
+      context.fillStyle = this.colorSpec(x, y);
+      imDat.data[i++] = parseInt(context.fillStyle.substring(1, 3), 16);
+      imDat.data[i++] = parseInt(context.fillStyle.substring(3, 5), 16);
+      imDat.data[i++] = parseInt(context.fillStyle.substring(5, 7), 16);
+      imDat.data[i++] = 255; // the Alpha/transparency of (x,y), which is constant 255, i.e. fully visible
+    };
+  };
+  context.putImageData (imDat, 0, 0);
+ },
+
+/*
+ * Calculate CSS representation of color at x,y coordinates of mouse pointer
+ * @return {String} a string suitable for the color or backgroundColor property
+ *  for a text element's style
+ */
+ colorSpec: function (x, y) {
+  this.triad[this.xChannel] = Math.floor(x*this.xMultiplier+0.5);
+  this.triad[this.yChannel] = Math.floor(y*this.yMultiplier+0.5);
+  var returnValue = this.currentMode+"("+this.triad[0]+",";
+  returnValue += this.triad[1]+this.percentOrNot+",";
+  returnValue += this.triad[2]+this.percentOrNot+")";
+  return returnValue;
+ },
+
+/*
+ * Initialize the system.
+ */
+ init: function () {
+
+  var app = this;
+
+  document.getElementById("commit").addEventListener("click", function (event)
+   {
+    console.log("click handler for #commit");
+    self.port.emit(
+     "newStyle",
+     document.getElementById("heading").getAttribute("style")
+    );
+  });
+
+  this.canvasElement.addEventListener("click", function (mouseEvent) {
+    // canvas element is positioned 100,100 from top,left
+    var x = mouseEvent.clientX-100;
+    var y = mouseEvent.clientY-100;
+    app.setTriadComplex(); // normalize coordinates
+    var newColor = app.colorSpec(x, y);
+    // set color of background or text of h1 element, depending on domain
+    if (app.currentDomain == "background") {
+     document.getElementById("heading").style.backgroundColor = newColor;
+    }
+    else {
+     document.getElementById("heading").style.color = newColor;
+    }
+  });
+
+  this.drawCubeSlice();
+
+ }
+
+};
+
+colorPicker.init();
+
