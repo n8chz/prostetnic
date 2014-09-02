@@ -17,6 +17,10 @@ var FindScript = (function () {
 
   // var searchInput = document.getElementById("search"); // because .addEventListener doesn't use the obvious logical thing as 'this'
 
+  document.getElementById("search").focus(); // kludge b/c SDK tabs don't seem to honor 'autofocus' attribute
+
+
+
   if (searchInput = document.getElementById("search")) {
    searchInput.focus(); // because autofocus doesn't seem to work in add-on tabs
    searchInput.addEventListener("input", function (event) { // ?
