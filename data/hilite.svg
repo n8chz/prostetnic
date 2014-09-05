@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" fill="yellow" text-anchor="middle" font-family="sans">
+<path id="square" d="M 0,0 H 64 V 64 H -64 V -64" />
+<text transform="translate(31,54)" font-size="60" id="a" fill="black">A</text>
+</svg>
+
