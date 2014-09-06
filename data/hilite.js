@@ -22,7 +22,10 @@ var HiliteScript = (function () {
   // Classes for content scripts:
 
 /*
- *
+ * @constructor
+ * @param {Array} hilites Highlight objects created during a previous visit to
+ *  the current page.  We will attempt to find the highlight text in the page
+ *  as it currently exists.
  */
   function ReHiliteSession(hilites) {
    // Create a NodeIterator containing all non-whitespace text nodes in document.body:
@@ -45,11 +48,12 @@ var HiliteScript = (function () {
    });
   }
 
-/*
- *
- */
   ReHiliteSession.prototype = {
 
+/*
+ * @param {Highlight} hilite a higlight that we will attempt to match
+ *  in the document's text.
+ */
    reHilite: function (hilite) {
     var relevantTextNodes = this.rightmostMatch(hilite);
     if (relevantTextNodes) {
@@ -78,7 +82,11 @@ var HiliteScript = (function () {
    },
 
 /*
- *
+ * @param {Highlight} hilite a highlight, the concatenation of whose spans we
+ *  will attempt to find within the documents text.  If it appears more than
+ *  once, we'll go with the last occurrence (an arbitrary decision).
+ * @return {Array} of that subset of the document's text Nodes that contain the
+ *  last occurrence of the highlight's text.
  */
    rightmostMatch: function (hilite) {
     var spanTexts = this.texts(hilite.hiliteSpans);
@@ -98,16 +106,22 @@ var HiliteScript = (function () {
    },
 
 /*
- *
+ * @param {Array} array of objects that have a textContent property
+ * @return {Array} of Strings which are the textContent of each element of the
+ *  parameter array.
  */
    texts: function (array) {
     return array.map(function (item) {
-      return item.textContent;
+      if (item) return item.textContent; // kludge to silence 'item is null' exception
     });
    },
 
 /*
- *
+ * @param {HighlightSpan} span that span whose corresponding document Node is
+ *  to be wrapped in a <span> element
+ * @param {Node} node, text node in document which will be wrapped in a <span>
+ * @param {String} style, the value for the 'style' attribute of the new <span>,
+ *  containing color and background-color properties.
  */
    hilite: function(span, node, style) {
     var spanText = span.textContent;
@@ -145,9 +159,11 @@ var HiliteScript = (function () {
 
 
 /*
- *
+ * @constructor
+ * @param {simple-storage} data contents of add-on script's simple-storage,
+ *  received by listener for "hilite" event.
  */
-  function Highlight(data) { // TODO make Highlight instances per range rather than per selection
+  function Highlight(data) {
    this.style = data.style;
    var hiliteSpanID = data.hiliteSpanID;
    this.timeStamp = Math.round((new Date()).getTime() / 1000);
@@ -167,7 +183,9 @@ var HiliteScript = (function () {
   Highlight.prototype = {
 
 /*
- *
+ * @param {Range} range one of the ranges of the current selection
+ * @param {Number} hiliteSpanID, next value for key column in hiliteSpan table.
+ * @return {Array} of HighlightSpan instances; one for each text Node in range.
  */
    highlightRange: function (range, hiliteSpanID) {
     var spans = [];
@@ -177,7 +195,6 @@ var HiliteScript = (function () {
     this.endOffset = range.endOffset;
     var currentContainer = this.startContainer;
     var newSpan;
-    // var nodeArray = this.flatten(range.commonAncestorContainer); // un-comment this to restore original behavior
     nodeIterator = document.createNodeIterator(
      range.commonAncestorContainer,
      NodeFilter.SHOW_TEXT,
@@ -201,7 +218,13 @@ var HiliteScript = (function () {
   };
 
 /*
- *
+ * @constructor
+ * @param {Highlight} highlight, to whose 'spans' property
+ *  new HighlightSpan will be added
+ * @param {Node} currentContainer, document Node to be highlighted
+ * @param {Number} hiliteSpanID, number to be used as 'id' attribute of new
+ *  <span> element, and as hiliteSpanId field of new row in hiliteSpan table,
+ *  and to be incremented for the next span to be highlighted. 
  */
   function HighlightSpan(highlight, currentContainer, hiliteSpanID) {
    this.hiliteSpanID = hiliteSpanID;
