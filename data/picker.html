@@ -20,6 +20,17 @@
  position: absolute;
  top: 400px;
 }
+.preset, #undo {
+ width: 8%;
+ float: left;
+ margin: 2px;
+}
+#undo {
+ font-weight:bold;
+}
+.squared {
+ border: 4px solid black;
+}
 </style>
 
 </head>
@@ -29,6 +40,19 @@
  <div class="picker">
   <canvas id="panel" width="256" height="256"></canvas>
   <form id="control">
+   <fieldset id="palette">
+    <button type="button" style="background-color:hsl(18, 100%, 85%); color:black" class="preset" id="preset0">A</button>
+    <button type="button" style="background-color:hsl(54, 100%, 85%); color:black" class="preset" id="preset1">A</button>
+    <button type="button" style="background-color:hsl(90, 100%, 85%); color:black" class="preset" id="preset2">A</button>
+    <button type="button" style="background-color:hsl(126, 100%, 85%); color:black" class="preset" id="preset3">A</button>
+    <button type="button" style="background-color:hsl(162, 100%, 85%); color:black" class="preset" id="preset4">A</button>
+    <button type="button" style="background-color:hsl(198, 100%, 85%); color:black" class="preset" id="preset5">A</button>
+    <button type="button" style="background-color:hsl(234, 100%, 85%); color:black" class="preset" id="preset6">A</button>
+    <button type="button" style="background-color:hsl(270, 100%, 85%); color:black" class="preset" id="preset7">A</button>
+    <button type="button" style="background-color:hsl(306, 100%, 85%); color:black" class="preset" id="preset7">A</button>
+    <button type="button" style="background-color:hsl(342, 100%, 85%); color:black" class="preset" id="preset7">A</button>
+    <button type="button" id="undo" title="undo most recent palette change">&#9100;</button>
+   </fieldset>
    <label for="level">Adjust <span id="channel">saturation</span> level
    </label>
    <input min="0" max="100" step="1" id="level" name="which" type="range"
@@ -36,11 +60,11 @@
    <fieldset>
     <legend>Set color of:</legend>
     <label for="color">text</label>
-    <input type="radio" name="domain" id="color"
-    onChange="colorPicker.setDomain()" />
+    <input type="radio" name="domain" id="color" />
+<!--    onChange="colorPicker.setDomain()" /> -->
     <label for="background">background</label>
-    <input type="radio" name="domain" id="background"
-    onChange="colorPicker.setDomain()" checked />
+    <input type="radio" name="domain" id="background" checked="true" />
+<!--    onChange="colorPicker.setDomain()" checked="true" /> -->
    </fieldset>
    <fieldset>
     <legend>Hold which channel constant?</legend>
@@ -66,8 +90,36 @@
    <button id="commit">Use selected text and background colors</button>
   </form>
  </div>
+<!--
 <script type="text/javascript"
 src="colorpicker.js">
+</script>
+-->
+<script type="text/javascript">
+
+/*
+var presets = document.getElementsByClassName("preset");
+
+for (var k = 0; k < presets.length; k++) {
+
+ var preset = presets[k];
+ var style = preset.style;
+
+ preset.onfocus = function () {
+  this.classList.add("squared");
+  var presetStyle = this.style;
+  var headingStyle = document.getElementById("heading").style;
+  headingStyle.backgroundColor = presetStyle.backgroundColor;
+  headingStyle.color = presetStyle.color;
+  // document.getElementById("heading").style = this.style;
+ }
+
+ preset.onblur = function () {
+  this.classList.remove("squared");
+ }
+}
+*/
+
 </script>
 </body>
 </html>

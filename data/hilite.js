@@ -124,6 +124,7 @@ var HiliteScript = (function () {
  *  containing color and background-color properties.
  */
    hilite: function(span, node, style) {
+    console.log("style: "+style);
     var spanText = span.textContent;
     var nodeText = node.textContent;
     var nodeSplit = nodeText.split(spanText);
