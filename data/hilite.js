@@ -171,7 +171,7 @@ var HiliteScript = (function () {
    this.url = location.href;
    this.title = document.title;
    this.hiliteSpans = [];
-   var selection = document.getSelection();
+   var selection = window.getSelection();
    for (var k = 0; k < selection.rangeCount; k++) { // selections may be non-contiguous
     this.hiliteSpans = this.hiliteSpans.concat(
      this.highlightRange(selection.getRangeAt(k), hiliteSpanID)
