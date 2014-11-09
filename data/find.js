@@ -17,12 +17,8 @@ var FindScript = (function () {
 
   // var searchInput = document.getElementById("search"); // because .addEventListener doesn't use the obvious logical thing as 'this'
 
-  window.addEventListener("load", function (event) {
-    document.getElementById("search").focus();
-  });
-
-
   if (searchInput = document.getElementById("search")) {
+   searchInput.focus();
    searchInput.addEventListener("input", function (event) { // ?
      var wordArray = searchInput.value.split(/'?[\x00-\x26\x28\x29\x3a-\x40\x5b-\x60\x7b-\x7f]+'?/);
      searchInput.value = wordArray.join(" ");
