@@ -1,0 +1,9 @@
+{
+  "name": "new-ph",
+  "title": "new-ph",
+  "description": "a basic add-on",
+  "main": "lib/main.js",
+  "author": "Lorraine Lee",
+  "license": "CC0",
+  "version": "3.0.0"
+}
